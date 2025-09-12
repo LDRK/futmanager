@@ -1,0 +1,82 @@
+---
+title: Comenzar
+description: Guía de inicio rápido para integrar la API FutManager en tus aplicaciones.
+---
+Este documento te guiará en los primeros pasos para comenzar a usar la API correctamente.
+
+## Requisitos previos
+
+Antes de realizar tus primeras solicitudes, asegúrate de contar con lo siguiente:
+
+- Una cuenta activa en **FutManager**.  
+- Una **clave de API** o **token de autenticación** válido.  
+- Una herramienta para interactuar con la API, como **Postman**, **Insomnia** o **cURL**.  
+
+---
+
+## URL base
+
+Todas las peticiones a la API deben realizarse sobre la siguiente URL raíz:
+
+https://api.futmanager.com/v1/
+
+
+Los endpoints descritos en esta documentación se añaden a esta URL base.  
+Por ejemplo: `https://api.futmanager.com/v1/users`
+
+---
+
+## Autenticación
+
+La API utiliza autenticación mediante **token**.  
+Cada solicitud protegida debe incluir el token en el encabezado:
+
+Authorization: Bearer **tu_token**
+
+
+Si el token es inválido o ha expirado, recibirás una respuesta con el código **401 Unauthorized**.
+
+---
+
+## Formato de datos
+
+- **Solicitudes:** los datos enviados al servidor deben ir en formato **JSON**.  
+- **Respuestas:** la API siempre devuelve datos en **JSON**.  
+
+Ejemplo de respuesta general:
+
+```json
+{
+  "status": "success",
+  "data": { ... }
+}
+
+```
+
+
+
+## Convenciones
+
+##### Métodos HTTP:
+
+* **GET** → Obtener recursos
+
+* **POST** → Crear recursos
+
+* **PUT / PATCH** → Actualizar recursos
+
+* **DELETE** → Eliminar recursos
+
+##### Códigos de estado más comunes:
+
+* **200 OK** – Solicitud exitosa
+
+* **201 Created** – Recurso creado correctamente
+
+* **400 Bad Request** – Error en la petición
+
+* **401 Unauthorized** – Token inválido o faltante
+
+* **404 Not Found** – Recurso no encontrado
+
+* **500 Internal Server Error** – Error del servidor

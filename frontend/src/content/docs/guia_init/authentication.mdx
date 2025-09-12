@@ -1,0 +1,19 @@
+---
+title: Autenticación
+description: Endpoints para autenticación y manejo de tokens en FutManager.
+---
+
+La API de **FutManager** utiliza un sistema de **tokens de acceso** para validar las solicitudes.  
+Antes de consumir cualquier endpoint protegido, el cliente debe iniciar sesión y obtener un **token JWT**.
+
+---
+
+## Iniciar sesión
+
+**POST** `/api/auth/login`
+
+```json
+{
+  "email": "juan@example.com",
+  "password": "123456"
+}

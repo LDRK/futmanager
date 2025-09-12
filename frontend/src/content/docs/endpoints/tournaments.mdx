@@ -1,0 +1,16 @@
+---
+title: Ejemplos de Uso
+---
+
+# Ejemplos de Uso
+
+## Obtener torneos con **fetch** en JavaScript
+
+```js
+const response = await fetch("https://api.futmanager.com/v1/tournaments", {
+  headers: {
+    Authorization: "Bearer <tu_token>"
+  }
+});
+const data = await response.json();
+console.log(data);

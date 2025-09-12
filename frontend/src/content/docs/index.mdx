@@ -1,0 +1,54 @@
+---
+title: Bienvenido a FutManager
+icon: /logo-futManager.svg
+description: API REST para la creación y gestión de torneos de fútbol.
+template: splash
+hero:
+  tagline: Organiza, gestiona y sigue torneos de fútbol de forma sencilla con FutManager.
+  image:
+    file: ../../assets/houston.webp
+  actions:
+  - text: Explorar la Documentación
+    link: guia_init/getting-started
+  - text: Ver Endpoints
+    link: endpoints/users
+  - text: Repositorio en GitHub
+    link: https://github.com/LDRK/futmanager
+    variant: minimal
+
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## 🚀 Cómo empezar
+
+En pocos minutos podrás consumir la API de FutManager:
+
+1. Regístrate y obtén tu **token de autenticación**.  
+2. Consulta los **endpoints disponibles** para usuarios, torneos y partidos.  
+3. Integra FutManager en tu aplicación o sistema.  
+
+---
+
+## 📌 Principales características
+
+<CardGrid stagger>
+	<Card title="Gestión de usuarios" icon="user">
+		Registra, autentica y administra los usuarios de tu sistema.
+	</Card>
+	<Card title="Torneos personalizados" icon="trophy">
+		Crea y organiza torneos adaptados a tus reglas y necesidades.
+	</Card>
+	<Card title="Estadísticas en tiempo real" icon="chart">
+		Accede a métricas de equipos, jugadores y partidos al instante.
+	</Card>
+</CardGrid>
+
+---
+
+## 📖 Recursos
+
+- [Guía de inicio](guia_init/getting-started)  
+- [Autenticación](guia_init/authentication)  
+- [Errores comunes](guia_init/errors)  
+- [Ejemplos de uso](guia_init/examples)  
