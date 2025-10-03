@@ -1,5 +1,4 @@
 from django.db import models
-from api.models.torneo import Torneo
 from django.core.exceptions import ValidationError
 
 # Modelo Partido
@@ -7,7 +6,7 @@ class Partido(models.Model):
     ESTADOS = [
         ('en juego', 'En juego'),
         ('finalizado', 'Finalizado'),
-        ('programado', 'Programado'),  # Añadido este estado porque lo usas como default
+        ('programado', 'Programado'),  
     ]
     
     torneo = models.ForeignKey('api.Torneo', on_delete=models.CASCADE)

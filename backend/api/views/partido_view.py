@@ -25,7 +25,7 @@ def partido_api_view(request):
         return Response(partido_serizers.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET','PUT','DELETE'])
+@api_view(['GET','PATCH','DELETE'])
 def partido_details_view(request, pk=None):
     """Vista API para operaciones específicas de un partido por ID"""
     
@@ -37,7 +37,7 @@ def partido_details_view(request, pk=None):
             partido_serizers = PartidoSerializer(partido_id)
             return Response(partido_serizers.data,status=status.HTTP_200_OK)
         
-        elif request.method == 'PUT':
+        elif request.method == 'PATCH':
             # Actualizamos el Partido
             partido_serizers = PartidoSerializer(partido_id, data = request.data)
             if partido_serizers.is_valid():
