@@ -40,7 +40,7 @@ def estadisticas_jugador_details(request,pk=None):
         
         elif request.method == 'PATCH':
             # Actualizamos la estadistica del jugador
-            statsJugador_serializer = EstadisticasJugadorSerializer(estadisticaJugador_id, data=request.data)
+            statsJugador_serializer = EstadisticasJugadorSerializer(estadisticaJugador_id, data=request.data, partial=True)
             if statsJugador_serializer.is_valid():
                 statsJugador_serializer.save()
                 return Response({'message':'Registro actualizado correctamente'}, status = status.HTTP_201_CREATED)
@@ -82,7 +82,7 @@ def estadisticas_equipo_details(request,pk=None):
         
         elif request.method == 'PATCH':
             # Actualizamos la estadistica del equipo
-            statsEquipo_serializer = EstadisticasEquipoSerializer(estadisticaEquipo_id, data=request.data)
+            statsEquipo_serializer = EstadisticasEquipoSerializer(estadisticaEquipo_id, data=request.data, partial=True)
             if  statsEquipo_serializer.is_valid():
                 statsEquipo_serializer.save()
                 return Response({'message':'Registro actualizado correctamente'}, status = status.HTTP_201_CREATED)
