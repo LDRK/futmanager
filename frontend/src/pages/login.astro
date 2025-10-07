@@ -1,0 +1,17 @@
+---
+import LoginComponent from "../components/vueComponents/LoginComponent.vue"
+import LayoutAuth from "../layouts/LayoutAuth.astro"
+---
+
+
+
+<LayoutAuth 
+    title='FUTMANAGER - Login'
+	description="Ingresa a la plataforma FUTMANAGER">
+    <main class="w-full max-w-sm">
+        <LoginComponent client:load />
+    </main>
+  
+
+</LayoutAuth>
+

@@ -1,0 +1,14 @@
+---
+import RegisterComponent from "../components/vueComponents/RegisterComponent.vue"
+import LayoutAuth from "../layouts/LayoutAuth.astro"
+---
+
+
+
+<LayoutAuth 
+    title='FUTMANAGER - register'
+	description="Registrate en la plataforma FUTMANAGER">
+    <main class="">
+            <RegisterComponent client:load/>
+    </main>
+</LayoutAuth>

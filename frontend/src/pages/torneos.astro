@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionContiner from '../components/SectionContiner.astro';
+import HeroSection from '../components/torneo/HeroSection.astro';
+import StatsTorneos from '../components/torneo/StatsTorneos.astro';
+import BuscadorTorneo from '../components/torneo/BuscadorTorneo.astro';
+import TorneosSection from '../components/torneo/TorneosSection.vue';
+import InfoPitchcore from '../components/torneo/InfoPitchcore.astro';
+---
+<Layout 
+	title='PITCHCORE - Torneos'
+	description="Plataforma que conecta las persona con el deporte">
+	<main>
+		<SectionContiner>
+			<HeroSection/>
+		</SectionContiner>
+		<SectionContiner>
+			<StatsTorneos/>
+		</SectionContiner>
+		<SectionContiner>
+			<BuscadorTorneo/>
+		</SectionContiner>
+		<SectionContiner>
+			<TorneosSection client:load/>
+		</SectionContiner>
+		<SectionContiner>
+			<InfoPitchcore/>
+		</SectionContiner>
+	</main>
+</Layout>

@@ -1,31 +1,37 @@
 from rest_framework import status
-from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from django.contrib.auth.models import User
-from accounts.models import Profile
-# from rest_framework.views import APIView
 from rest_framework.decorators import api_view
-from accounts.api.serializer import UserSerializer, ProfileSerializer
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from accounts.api.serializer import UserSerializer
 
 # Vistas Usuario
 
 @api_view(['GET','POST'])
 def user_api_view(request):
-    """Vista API para listar todos los usuarios (GET) y crear nuevos (POST)"""
-    
+    """Vista API para listar usuarios (GET) y registrar nuevos con token (POST)"""
+
     if request.method == 'GET':
-        # Obtener todos los usuarios y serializarlos
         users = User.objects.all()
-        users_serizers = UserSerializer(users,many = True)
-        return Response(users_serizers.data, status=status.HTTP_200_OK)
-    
+        users_serializers = UserSerializer(users, many=True)
+        return Response(users_serializers.data, status=status.HTTP_200_OK)
+
     elif request.method == 'POST':
-        # Crear nuevo usuario con validación
-        user_serizers = UserSerializer(data = request.data)
-        if user_serizers.is_valid():
-            user_serizers.save()
-            return Response({'message':'Usuario registrado correctamente'}, status = status.HTTP_201_CREATED)
-        return Response(user_serizers.errors, status=status.HTTP_400_BAD_REQUEST)
+        user_serializer = UserSerializer(data=request.data)
+        if user_serializer.is_valid():
+            # Guardar usuario y perfil
+            user = user_serializer.save()
+
+            # Crear token para el usuario recién creado
+            token, created = Token.objects.get_or_create(user=user)
+
+            return Response({
+                'message': 'Usuario registrado correctamente',
+                'token': token.key,
+                'user': user_serializer.data
+            }, status=status.HTTP_201_CREATED)
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     
 @api_view(['GET','PUT','DELETE'])
 def user_details_view(request,pk=None):

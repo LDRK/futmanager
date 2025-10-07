@@ -1,0 +1,70 @@
+---
+import CardContact from "./CardContact.astro"
+---
+<section class="bg-stone-50 py-16 dark:bg-slate-800">
+  <div class="max-w-screen-xl mx-auto px-6">
+    
+    <!-- Título -->
+    <h1 class="text-3xl font-extrabold text-center text-orange-600 mb-12 md:text-4xl dark:text-orange-500">
+      Contacto
+    </h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-center mb-16">
+        <CardContact
+            icon= "/map-pin.svg"
+            title="Ubicación"
+            description="CRA 43 A #25-47"
+            link="#"
+        />
+        <CardContact
+            icon= "/phone.svg"
+            title="Teléfono"
+            description="+57 318 469 2440"
+            link="#"
+        />
+        <CardContact
+            icon= "/mail.svg"
+            title="Email"
+            description="contacto@pitchcore.com"
+            link="#"
+        />
+        <CardContact
+            icon= "/clock.svg"
+            title="Horario"
+            description="Lunes - Viernes"
+            description="8:00 AM - 5:00 PM"
+            link="#"
+        />
+    </div>
+   
+    <!-- Formulario -->
+    <div class="max-w-3xl mx-auto">
+      <form class="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-md space-y-6">
+        
+        <div class="text-center">
+          <h2 class="text-2xl font-semibold mb-3 text-gray-800 dark:text-slate-50">Rellena el formulario con tus datos</h2>
+          <p class="text-xl text-gray-600 dark:text-slate-300">Contáctanos</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1 dark:text-slate-200">Nombre</label>
+          <input type="text" class="w-full border border-gray-300 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-200" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1 dark:text-slate-200">Correo</label>
+          <input type="email" class="w-full border border-gray-300 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-200" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1 dark:text-slate-200">Mensaje</label>
+          <textarea class="w-full border border-gray-300 rounded-lg p-2 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-200" rows="4" required></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-orange-600 text-white py-2 rounded-lg font-semibold hover:bg-orange-700 transition">
+          Enviar
+        </button>
+      </form>
+    </div>
+
+  </div>
+</section>

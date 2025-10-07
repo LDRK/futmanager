@@ -1,0 +1,35 @@
+---
+import CardService from "./CardService.astro";
+---
+
+<section class="bg-gray-50 py-16 dark:bg-slate-800">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-extrabold tracking-tight leading-tight text-orange-600 mb-10 text-center md:text-4xl dark:text-orange-500">Nuestros Servicios</h2>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <CardService
+        icon= "/tournament.svg"
+        title="Gestión de Torneos"
+        description="Organiza torneos fácilmente: registra equipos, programa partidos y controla resultados."
+        link="#"
+      />
+      <CardService
+        icon="/paywall.svg"
+        title="Pagos Digitales"
+        description="Recibe pagos de inscripción, alquiler y otros servicios desde la app."
+        link="#"
+      />
+      <CardService
+        icon="/chart-bar.svg"
+        title="Estadísticas"
+        description="Sigue el rendimiento de jugadores y equipos con datos actualizados."
+        link="#"
+      />
+      
+    </div>
+  </div>
+</section>
+
+
+
+ 

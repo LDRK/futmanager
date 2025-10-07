@@ -1,0 +1,21 @@
+---
+const { icon, title, description, link } = Astro.props;
+---
+
+<div class="bg-white rounded-2xl shadow-md border border-gray-200 p-6 hover:shadow-lg transition duration-300 flex flex-col dark:bg-slate-900 dark:border-slate-700">
+  <!-- Ícono -->
+  <div class="w-12 h-12 mb-4 bg-orange-100 text-orange-600 flex items-center justify-center rounded-xl dark:bg-slate-200">
+    <img src={icon} alt={title + " icon"} class="w-6 h-6" />
+  </div>
+
+  <!-- Título -->
+  <h3 class="text-lg font-semibold text-gray-800 mb-2 dark:text-slate-50">{title}</h3>
+
+  <!-- Descripción -->
+  <p class="text-gray-600 text-sm flex-grow dark:text-slate-300">{description}</p>
+
+  <!-- Enlace -->
+  <!-- <a href={link} class="mt-4 inline-block text-sm font-medium text-orange-600 hover:underline">
+    Ver más →
+  </a> -->
+</div>

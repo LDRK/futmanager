@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionContiner from '../components/SectionContiner.astro';
+import HeroSection from '../components/landing_page/HeroSection.astro';
+import About from '../components/landing_page/About.astro';
+import Services from '../components/landing_page/Services.astro';
+import SocialCustomer from '../components/landing_page/SocialCustomer.astro';
+import CustomersLogo from '../components/landing_page/CustomersLogo.astro';
+import Contact from '../components/landing_page/Contact.astro';
+
+
+---
+<Layout 
+	title='FUTMANAGER'
+	description="Plataforma que conecta las persona con el deporte">
+	<main>
+		<SectionContiner id="top">
+			<HeroSection/>
+		</SectionContiner>
+		<SectionContiner id="nosotros" >
+			<About/>
+		</SectionContiner>
+		<SectionContiner >
+			<SocialCustomer/>
+		</SectionContiner>
+		<SectionContiner id="servicios" >
+			<Services/>
+		</SectionContiner>
+		<SectionContiner  >
+			<CustomersLogo/>
+		</SectionContiner>
+		<SectionContiner id="contacto" >
+			<Contact/>
+		</SectionContiner>
+		
+		
+	
+	</main>
+</Layout>

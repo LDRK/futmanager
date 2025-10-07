@@ -1,0 +1,45 @@
+---
+import "../styles/global.css";
+
+interface Props{
+	//Typescript
+	title: string
+	description: string
+}
+
+const { description, title } = Astro.props
+---
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description}>
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-gray-100 dark:bg-gray-900">
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	html,
+	body {
+		overflow-x: hidden;
+		display: flex;
+		flex-direction: column 	;
+		justify-content: center;
+		color-scheme: light dark;
+		min-height: 100vh;
+		scroll-behavior: smooth;
+
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html{
+			scroll-behavior: auto;
+		}	
+	}
+</style>
