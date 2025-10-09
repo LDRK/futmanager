@@ -1,11 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 import Logo from '../../icons/Logo.vue'
 
 const step = ref(1)
 const error = ref('')
-const success = ref(false)
+
 
 const formRegister = ref({
   username: '',
@@ -22,11 +23,22 @@ const formRegister = ref({
 const nextStep = () => {
   error.value = ''
   if (!formRegister.value.username || !formRegister.value.email || !formRegister.value.password) {
-    error.value = 'Completa todos los campos.'
+    Swal.fire({
+      icon: 'warning',
+      title: 'Campos incompletos',
+      text: 'Por favor, completa todos los campos.',
+      timer: 2000,
+      showConfirmButton: false
+    })
     return
   }
   if (formRegister.value.password !== formRegister.value.confirmPassword) {
-    error.value = 'Las contraseñas no coinciden.'
+    Swal.fire({
+      icon: 'warning',
+      title: 'Las contraseñas no coinciden',
+      timer: 2000,
+      showConfirmButton: false
+    })
     return
   }
   step.value = 2
@@ -53,13 +65,39 @@ const handleSubmit = async () => {
       }
     })
 
+    // Alerta de éxito
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: '¡Registro exitoso!',
+      text: 'Tu cuenta ha sido creada correctamente.',
+      timer: 2000,
+      showConfirmButton: false
+    })
+
     console.log('✅ Registro exitoso:', response.data)
-    success.value = true
+
+   
+    // Limpiamos el formulario y regresamos al paso 1
     step.value = 1
     Object.keys(formRegister.value).forEach(key => (formRegister.value[key] = ''))
   } catch (err) {
-    console.error(err)
-    error.value = 'Error al registrar. Intenta nuevamente.'
+    console.error(' Error al registrar:', err.response?.data || err.message)
+
+
+    // Mostrar error personalizado si viene del backend
+    Swal.fire({
+      position: 'top-end',
+      icon: 'error',
+      title: 'Error al registrar',
+      text:
+        err.response?.data?.profile?.[0] ||
+        err.response?.data?.email?.[0] ||
+        err.response?.data?.username?.[0] ||
+        'Ocurrió un problema. Intenta nuevamente.',
+      timer: 2500,
+      showConfirmButton: false
+    })
   }
 }
 </script>
@@ -114,9 +152,9 @@ const handleSubmit = async () => {
             <form @submit.prevent="handleSubmit" class="mx-auto max-w-xs">
               <div v-if="step === 1" class="space-y-1">
                 <!-- username -->
-                <input v-model="formRegister.username"
+                <input v-model="formRegister.username" 
                   class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white  dark:text-gray-800"
-                  type="username" placeholder="Usuario" required />
+                  type="text" placeholder="Usuario" required />
                 <!-- correo -->
                 <input v-model="formRegister.email"
                   class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-3  dark:text-gray-800"
@@ -170,7 +208,7 @@ const handleSubmit = async () => {
                 <!-- Telefono -->
                 <input v-model="formRegister.phone"
                   class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white dark:text-gray-800"
-                  type="tel" placeholder="Telefono" required />
+                  type="number" placeholder="Telefono" maxlength="10" required />
                 <!-- Rol -->
                 <div>
                   <select v-model="formRegister.role"
@@ -182,10 +220,13 @@ const handleSubmit = async () => {
                   </select>
                 </div>
 
-                <div class="flex-col justify-between mt-4">
+                <div class="flex justify-between gap-1 mt-4">
+                  
                   <button type="button" @click="prevStep"
-                    class="mt-4 tracking-wide font-semibold bg-gray-800 text-gray-100 w-full py-4 rounded-lg hover:bg-gray-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none dark:bg-orange-600 dark:hover:bg-orange-700">
-                    Atrás
+                    class="mt-4 tracking-wide font-semibold bg-indigo-100 text-gray-100 w-20 py-4 rounded-lg hover:bg-indigo-200 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none dark:bg-gray-300 dark:hover:bg-gray-500">
+                    <svg  xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
+    
+                    </svg>
                   </button>
                   <button type="submit"
                     class="mt-4 tracking-wide font-semibold bg-gray-800 text-gray-100 w-full py-4 rounded-lg hover:bg-gray-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none dark:bg-orange-600 dark:hover:bg-orange-700">
@@ -195,11 +236,6 @@ const handleSubmit = async () => {
               </div>
 
             </form>
-            <!-- Mensajes -->
-            <p v-if="error" class="text-red-600 text-center mt-4">{{ error }}</p>
-            <p v-if="success" class="text-green-600 text-center mt-4">
-              ¡Registro exitoso! 🎉
-            </p>
           </div>
         </div>
       </div>
