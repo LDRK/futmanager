@@ -1,0 +1,61 @@
+---
+import LayoutDashboard from "../layouts/LayoutDashboard.astro";
+import CardStats from "../components/dashboard/vueComponent/CardStats.vue";
+import TableTorneos from "../components/dashboard/vueComponent/TableTorneos.vue"
+---
+
+<LayoutDashboard
+    title="FUTMANAGER"
+    description="plataforma que conecta las personas con el deporte">
+    <main>
+       <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-50 shadow-md dark:bg-slate-700">
+          <div class="p-6 font-bold text-purple-700 text-2xl dark:text-slate-50">AdminPanel</div>
+          <nav class="mt-8">
+            <a href="#" class="block py-3 px-6 rounded-xl dark:text-slate-50 hover:bg-slate-800">Dashboard</a>
+            <a href="#" class="block py-3 px-6 rounded-xl dark:text-slate-50 hover:bg-slate-800">Users</a>
+            <a href="#" class="block py-3 px-6 rounded-xl dark:text-slate-50 hover:bg-slate-800">Analytics</a>
+            <a href="#" class="block py-3 px-6 rounded-xl dark:text-slate-50 hover:bg-slate-800">Settings</a>
+          </nav>
+        </aside>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col">
+    <!-- Top Navbar -->
+    <header class="bg-white shadow-md p-4 flex justify-between items-center dark:bg-slate-700">
+      <h1 class="text-xl font-bold text-purple-700 dark:text-slate-50">Dashboard</h1>
+      <div class="flex items-center gap-4">
+          <button class="flex bg-purple-600 text-white px-2 py-2 ml-3 rounded-lg shadow dark:bg-orange-600 dark:hover:bg-orange-700">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+            <span class="ml-1"> Crear Torneo </span>
+            
+          </button>
+          <input type="text" placeholder="Search..." class=" bg-gray-100 text-gray-700 px-4 py-2 border rounded-lg">
+        <div class="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold dark:bg-orange-600">SR</div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="p-6 space-y-6">
+      <CardStats client:load/>
+      <TableTorneos client:load/>
+
+
+
+<div class="bg-white p-6 rounded-lg shadow-md grid grid-cols-2 md:grid-cols-4 gap-4">
+  <button class="bg-blue-600 text-white py-3 rounded-lg shadow hover:bg-blue-700">Export Data</button>
+  <button class="bg-green-600 text-white py-3 rounded-lg shadow hover:bg-green-700">Generate Report</button>
+</div>
+
+<div class="bg-white p-6 rounded-lg shadow-md flex items-center gap-6">
+  <img src="https://i.pravatar.cc/100" alt="Profile" class="w-20 h-20 rounded-full shadow">
+  <div>
+    <h3 class="text-xl font-bold text-purple-700">Sophia Ray</h3>
+    <p class="text-gray-500">Administrator</p>
+    <button class="mt-2 bg-purple-600 text-white px-4 py-2 rounded-lg shadow hover:bg-purple-700">Edit Profile</button>
+  </div>
+</div>
+
+    </main>
+</LayoutDashboard>

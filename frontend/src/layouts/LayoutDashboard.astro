@@ -1,0 +1,48 @@
+---
+import '@fontsource-variable/inter';
+import "../styles/global.css";
+
+interface Props{
+	//Typescript
+	title: string
+	description: string
+}
+
+const { description, title } = Astro.props
+---
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description}>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/logo-futmanager.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class=" bg-gray-50 dark:bg-slate-900">
+		
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	html,
+	body {
+		font-family: 'Inter Variable',sans-serif;
+		overflow-x: hidden;
+		display: flex;
+		flex-direction: column 	;
+		justify-content: center;
+		color-scheme: light dark;
+		min-height: 100vh;
+		scroll-behavior: smooth;
+
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html{
+			scroll-behavior: auto;
+		}	
+	}
+</style>

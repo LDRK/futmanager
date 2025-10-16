@@ -10,7 +10,7 @@ onMounted(async () => {
     const res = await fetch("http://127.0.0.1:8000/api/torneos/");
     if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
     const data = await res.json();
-    console.log("Datos recibidos:", data); // 👈 mira consola
+    console.log("Datos recibidos:", data); // mira consola
     torneos.value = data;
   } catch (err) {
     console.error("Error al traer torneos:", err);

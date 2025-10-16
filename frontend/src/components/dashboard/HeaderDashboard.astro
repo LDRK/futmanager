@@ -1,0 +1,31 @@
+---
+import Logo from "../../icons/logo.astro";
+---
+<header class="bg-stone-50 text-black dark:bg-slate-800 w-full py-4 px-6 fixed top-0 z-50 shadow-md">
+     <!-- Logo -->
+    <div class="flex items-center  gap-3 ml-3 lg:absolute lg:left-0">
+      <Logo class="size-10"/>
+      <span class=" text-orange-600 text-lg font-bold md:mr-2">PITCHCORE</span>
+    </div>
+    
+  <div class="max-w-7xl mx-auto flex justify-between items-center h-8 ">
+    
+    <button id="menu-toggle" class="lg:hidden text-slate-800 dark:text-white">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+  </svg>
+</button>
+
+  <!-- Mobile Menu -->
+  <nav id="mobile-menu" class="md:hidden hidden flex-col gap-4 px-6 pt-4 pb-2 bg-stone-50 dark:bg-slate-800">
+  </nav>
+
+  <script type="module" is:inline>
+  const toggle = document.getElementById("menu-toggle");
+  toggle.addEventListener("click", () => {
+    document.dispatchEvent(new CustomEvent("toggle-sidebar"));
+  });
+</script>
+</div>
+</header>
