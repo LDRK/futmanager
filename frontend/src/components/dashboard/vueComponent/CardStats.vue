@@ -56,19 +56,23 @@ const torneosPendientes = computed(() =>
             v-else 
             class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
 
-        <div class="bg-white p-6 rounded-lg shadow-md dark:bg-slate-600">
+        <div class="bg-white p-6 rounded-lg shadow-md dark:bg-[rgba(30,41,59,0.5)]
+         backdrop-blur-[10px]">
             <p class="text-sm text-gray-500 dark:text-slate-50">Total Torneos</p>
             <h2 class="text-3xl font-bold text-purple-700 mt-2 dark:text-orange-500">{{ totalTorneos }}</h2>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md dark:bg-slate-600">
+        <div class="bg-white p-6 rounded-lg shadow-md dark:bg-[rgba(30,41,59,0.5)]
+         backdrop-blur-[10px]">
             <p class="text-sm text-gray-500 dark:text-slate-50">Total de Equipos</p>
             <h2 class="text-3xl font-bold text-green-600 mt-2 dark:text-orange-500">$24,500</h2>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md dark:bg-slate-600">
+        <div class="bg-white p-6 rounded-lg shadow-md dark:bg-[rgba(30,41,59,0.5)]
+         backdrop-blur-[10px]">
             <p class="text-sm text-gray-500 dark:text-slate-50">Torneos Activos</p>
             <h2 class="text-3xl font-bold text-blue-600 mt-2 dark:text-orange-500">{{ torneosActivos }}</h2>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md dark:bg-slate-600">
+        <div class="bg-white p-6 rounded-lg shadow-md dark:bg-[rgba(30,41,59,0.5)]
+         backdrop-blur-[10px]">
             <p class="text-sm text-gray-500 dark:text-slate-50">Torneos Pendientes</p>
             <h2 class="text-3xl font-bold text-red-500 mt-2 dark:text-orange-500">{{ torneosPendientes }}</h2>
         </div>
