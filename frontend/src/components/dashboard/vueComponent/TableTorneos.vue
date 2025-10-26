@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import ModalRegisterEquipo from "./ModalRegisterEquipo.vue";
 import ShowEquipos from "./ShowEquipos.vue";
 import ShowJugadores from "./ShowJugadores.vue";
 
@@ -136,6 +135,5 @@ function seleccionarTorneo(torneo) {
 
 
   </section>
-  <!-- Componente Modal -->
-  <ModalRegisterEquipo :visible="showModal" @close="showModal = false" @success="cargarEquipos" />
+ 
 </template>

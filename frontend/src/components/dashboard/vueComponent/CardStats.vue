@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from "vue";
 
 const torneos = ref([]);
+const equipos = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
@@ -22,8 +23,29 @@ onMounted(async () => {
   
     
 });
+
+// Treamos los esquipos del troneo
+onMounted(async () => {
+  try {
+    const res = await fetch("http://127.0.0.1:8000/api/equipo/");
+    if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+    const data = await res.json();
+    // console.log("Datos recibidos:", data); 
+    equipos.value = data;
+  } catch (err) {
+    console.error("Error al traer los equipos:", err);
+    error.value = err.message;
+  } finally {
+    loading.value = false;
+  }
+
+  
+    
+});
 //  Computed con campo 'activo' booleano
 const totalTorneos = computed(() => torneos.value.length);
+
+const totalEquipos = computed(() => equipos.value.length);
 
 const torneosActivos = computed(() =>
   torneos.value.filter(t => t.activo === true).length
@@ -64,7 +86,7 @@ const torneosPendientes = computed(() =>
         <div class="bg-white p-6 rounded-lg shadow-md dark:bg-[rgba(30,41,59,0.5)]
          backdrop-blur-[10px]">
             <p class="text-sm text-gray-500 dark:text-slate-50">Total de Equipos</p>
-            <h2 class="text-3xl font-bold text-green-600 mt-2 dark:text-orange-500">$24,500</h2>
+            <h2 class="text-3xl font-bold text-green-600 mt-2 dark:text-orange-500">{{ totalEquipos }}</h2>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md dark:bg-[rgba(30,41,59,0.5)]
          backdrop-blur-[10px]">

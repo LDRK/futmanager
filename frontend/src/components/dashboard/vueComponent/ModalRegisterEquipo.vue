@@ -2,6 +2,7 @@
     <transition name="fade">
     <div
       v-if="visible"
+
       class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm flex items-center justify-center z-50"
     >
       <div
@@ -19,20 +20,8 @@
             required
           />
           <input
-            v-model="form.capitan"
-            placeholder="Capitan"
-            class="block w-full rounded-md bg-white/5 px-3 py-3 mb-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-            required
-          />
-          <input
-            type="text"
+            type="date"
             v-model="form.fecha_inscripcion"
-            class="block w-full rounded-md bg-white/5 px-3 py-3 mb-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-            required
-          />
-          <input
-            type="text"
-            v-model="form.torneo"
             class="block w-full rounded-md bg-white/5 px-3 py-3 mb-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
             required
           />
@@ -56,9 +45,9 @@
 
         <button
           @click="cerrar"
-          class="absolute top-3 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+          class="absolute top-3 right-4 "
         >
-          ×
+          <span class="text-gray-400 hover:text-red-600 text-2xl font-bold">X</span>
         </button>
       </div>
     </div>
@@ -76,9 +65,8 @@ const emit = defineEmits(['close', 'success'])
 // Formulario
 const form = ref({
   nombre: '',
-  capitan: '',
   fecha_inscripcion: '',
-  torneo: ''
+  torneo_id: 1
   })
 
 // Cerrar modal

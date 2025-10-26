@@ -56,9 +56,9 @@
 
         <button
           @click="cerrar"
-          class="absolute top-3 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+          class="absolute top-3 right-4 "
         >
-          ×
+          <span class="text-gray-400 hover:text-red-600 text-2xl font-bold">X</span>
         </button>
       </div>
     </div>

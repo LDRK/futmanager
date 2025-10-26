@@ -17,7 +17,6 @@
     <ModalCreateTorneo
       :visible="showModal"
       @close="showModal = false"
-      @success="cargarTorneos"
     />
 
 
@@ -28,9 +27,5 @@ import ModalCreateTorneo from './ModalCreateTorneo.vue';
 
 const showModal = ref(false)
 
-// Ejemplo de función para recargar torneos
-const cargarTorneos = () => {
-  console.log('✅ Se recargan los torneos')
-  // Aquí harías la llamada para actualizar la lista desde el backend
-}
+
 </script>

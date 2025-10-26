@@ -1,6 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import ModalRegisterEquipo from "./ModalRegisterEquipo.vue";
+
 const equipos = ref([]);
+const showModal = ref(false)
 const loading = ref(true);
 const error = ref(null);
 
@@ -10,6 +13,7 @@ onMounted(async () => {
     if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
     const data = await res.json();
     equipos.value = data;
+    // console.log(data)
   } catch (err) {
     console.error("Error al traer los equipos:", err);
     error.value = err.message;
@@ -48,8 +52,8 @@ onMounted(async () => {
              dark:bg-[rgba(99,102,241,0.1)]">
             <tr>
               <th class="p-4 text-purple-600 font-semibold text-sm uppercase tracking-wide">Nombre</th>
-              <th class="p-4 text-purple-600 font-semibold text-sm uppercase tracking-wide">Capitan</th>
               <th class="p-4 text-purple-600 font-semibold text-sm uppercase tracking-wide">Fecha Inscripcion</th>
+              <th class="p-4 text-purple-600 font-semibold text-sm uppercase tracking-wide">Acciones</th>
               
             </tr>
           </thead>
@@ -59,12 +63,21 @@ onMounted(async () => {
                hover:bg-[rgba(99,102,241,0.05)] 
                transition-colors duration-200">
               <td class="text-gray-900 dark:text-slate-300 p-4">{{ equipo.nombre }}</td>
-              <td class="text-gray-900 dark:text-slate-300 p-4">{{ equipo.capitan }}</td>
               <td class="text-gray-900 dark:text-slate-300 p-4">{{ equipo.fecha_inscripcion }}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button class="px-2 py-2 rounded-lg bg-amber-600 text-slate-50 dark:text-slate-50 dark:bg-amber-600">
+                      Editar
+                  </button>
+                  <button class="px-2 py-2 rounded-lg bg-red-600 text-slate-50 dark:text-slate-50 dark:bg-red-600">
+                      Eliminar
+                  </button>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
-
-
       </div>
+       <!-- Componente Modal -->
+  <ModalRegisterEquipo :visible="showModal" @close="showModal = false" />
 </template>
