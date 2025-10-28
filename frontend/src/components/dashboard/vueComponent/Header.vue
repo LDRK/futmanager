@@ -23,7 +23,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import ModalCreateTorneo from './ModalCreateTorneo.vue';
+import ModalCreateTorneo from './modals/ModalCreateTorneo.vue';
 
 const showModal = ref(false)
 

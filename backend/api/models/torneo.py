@@ -4,12 +4,21 @@ from django.contrib.auth.models import User
 
 # Modelo Torneo 
 class Torneo(models.Model):
+    ESTADOS_TORNEO = [
+        ('registro', 'Registro'),
+        ('equipos', 'Registro de equipos'),
+        ('jugadores', 'Registro de jugadores'),
+        ('formato', 'Configuración del formato'),
+        ('activo', 'En curso'),
+        ('finalizado', 'Finalizado')
+    ]
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=100)
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField(null=True, blank=True)
     organizador = models.ForeignKey(User, on_delete=models.CASCADE, related_name="organizador")
     is_active = models.BooleanField(default=True)
+    estado = models.CharField(max_length=20, choices=ESTADOS_TORNEO, default='registro')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

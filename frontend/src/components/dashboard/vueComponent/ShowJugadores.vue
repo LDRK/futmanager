@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import ModalRegisterJugador from "./modals/ModalRegisterJugador.vue";
 const jugadores = ref([]);
+const showModal = ref(false)  
 const loading = ref(true);
 const error = ref(null);
 
@@ -49,6 +51,7 @@ onMounted(async () => {
              dark:bg-[rgba(99,102,241,0.1)]">
             <tr>
               <th class="p-4 text-purple-600 font-semibold text-sm uppercase tracking-wide">Nombre</th>
+              <th class="p-4 text-purple-600 font-semibold text-sm uppercase tracking-wide">Apellido</th>
               <th class="p-4 text-purple-600 font-semibold text-sm uppercase tracking-wide">Posicion</th>
               <th class="p-4 text-purple-600 font-semibold text-sm uppercase tracking-wide">Numero Camisa</th>
               <th class="p-4 text-purple-600 font-semibold text-sm uppercase tracking-wide">Acciones</th>
@@ -60,15 +63,16 @@ onMounted(async () => {
             <tr v-for="jugador in jugadores" :key="jugador.id" class="border-t border-[rgba(148,163,184,0.1)] 
                hover:bg-[rgba(99,102,241,0.05)] 
                transition-colors duration-200">
-              <td class="text-gray-900 dark:text-slate-300 p-4">{{ jugador.jugador }}</td>
+              <td class="text-gray-900 dark:text-slate-300 p-4">{{ jugador.nombre }}</td>
+              <td class="text-gray-900 dark:text-slate-300 p-4">{{ jugador.apellido }}</td>
               <td class="text-gray-900 dark:text-slate-300 p-4">{{ jugador.posicion }}</td>
-              <td class="text-gray-900 dark:text-slate-300 p-4">{{ jugador.numero_camisa }}</td>
+              <td class="text-gray-900 dark:text-slate-300 p-4">{{ jugador.numero_camiseta }}</td>
               <td class="text-gray-900 dark:text-slate-300 p-4">
                 <div class="flex gap-2">
-                  <button class="px-2 py-2 rounded-lg bg-amber-600 text-slate-50 dark:text-slate-50 dark:bg-amber-600">
+                  <button class="px-2 py-2 rounded-lg bg-orange-500 text-slate-50 dark:text-slate-50 dark:bg-orange-500 dark:hover:bg-orange-600">
                       Editar
                   </button>
-                  <button class="px-2 py-2 rounded-lg bg-red-600 text-slate-50 dark:text-slate-50 dark:bg-red-600">
+                  <button class="px-2 py-2 rounded-lg bg-red-600 text-slate-50 dark:text-slate-50 dark:bg-red-600 dark:hover:bg-red-700">
                       Eliminar
                   </button>
                 </div>
@@ -79,4 +83,5 @@ onMounted(async () => {
 
 
       </div>
+      <ModalRegisterJugador :visible="showModal" @close="showModal = false" />
 </template>

@@ -19,6 +19,7 @@ class TorneoSerializer(serializers.ModelSerializer):
             'fecha_fin': instance.fecha_fin,
             'organizador': instance.organizador.profile.nombre,
             'activo': instance.is_active,
+            'estado': instance.estado,
             
         }
 

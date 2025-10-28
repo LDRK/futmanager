@@ -6,8 +6,4 @@ class EquipoSerializer(serializers.ModelSerializer):
         model = Equipo
         fields = '__all__'
         
-    def to_representation(self, instance):
-        return {
-            'nombre': instance.nombre,
-            'fecha_inscripcion': instance.fecha_inscripcion,
-        }
+    
