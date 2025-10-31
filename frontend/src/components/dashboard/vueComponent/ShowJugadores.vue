@@ -6,6 +6,17 @@ const showModal = ref(false)
 const loading = ref(true);
 const error = ref(null);
 
+// Recibe el torneo seleccionado del padre
+const props = defineProps({
+  equipoSeleccionado: {
+    type: Object,
+    required: true
+  }
+});
+
+// defineEmits para enviar eventos al padre
+const emit = defineEmits(["volver"]);
+
 onMounted(async () => {
   try {
     const res = await fetch("http://127.0.0.1:8000/api/jugador/");
@@ -29,6 +40,11 @@ onMounted(async () => {
       <p v-else-if="jugadores.length === 0" class="text-center text-gray-500">
         No hay jugadores disponibles
       </p>
+      <div>
+        <button  @click="emit('volver')" class="flex bg-slate-700 hover:bg-slate-600 px-2 py-2 ml-3 mb-2 rounded-lg shadow font-semibold transition-all">
+                ← Volver a Equipos
+        </button>
+      </div>
       <div class="bg-white/60 rounded-2xl mb-5 shadow-md 
          dark:bg-[rgba(30,41,59,0.5)] 
          backdrop-blur-[10px] 

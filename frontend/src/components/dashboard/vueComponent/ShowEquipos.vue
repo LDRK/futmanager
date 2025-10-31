@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import ModalRegisterEquipo from "./modals/ModalRegisterEquipo.vue";
+import ShowJugadores from "./ShowJugadores.vue";
 
 const equipos = ref([]);
 const showModal = ref(false)
@@ -22,9 +23,17 @@ onMounted(async () => {
   }
 });
 
+const equipoSeleccionado = ref(null)
+
+function seleccionarEquipo(equipo) {
+  equipoSeleccionado.value = equipo
+}
+
 </script>
 <template>
-    <!-- Estados -->
+  <section>
+    <div v-if="!equipoSeleccionado">
+       <!-- Estados -->
       <p v-if="loading" class="text-center text-gray-500">Cargando equipos...</p>
       <p v-else-if="error" class="text-center text-red-500">Error: {{ error }}</p>
       <p v-else-if="equipos.length === 0" class="text-center text-gray-500">
@@ -62,7 +71,7 @@ onMounted(async () => {
             <tr v-for="equipo in equipos" :key="equipo.id" class="border-t border-[rgba(148,163,184,0.1)] 
                hover:bg-[rgba(99,102,241,0.05)] 
                transition-colors duration-200">
-              <td class="text-gray-900 dark:text-slate-300 p-4">{{ equipo.nombre }}</td>
+              <td class="text-gray-900 dark:text-slate-300 p-4"><a @click="seleccionarEquipo(equipo)">{{ equipo.nombre }}</a></td>
               <td class="text-gray-900 dark:text-slate-300 p-4">{{ equipo.fecha_inscripcion }}</td>
               <td>
                 <div class="flex gap-2">
@@ -78,6 +87,14 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
+    </div>
+    <div v-else>
+      <ShowJugadores v-if="equipoSeleccionado"
+  :equipoSeleccionado="equipoSeleccionado"
+  @volver="equipoSeleccionado = null" />
+    </div>
+  </section>
+   
        <!-- Componente Modal -->
   <ModalRegisterEquipo :visible="showModal" @close="showModal = false" />
 </template>

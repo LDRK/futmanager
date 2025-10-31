@@ -26,7 +26,7 @@ const paso = ref("equipos"); // valor por defecto
         ]">
           Equipos
         </button>
-        <button @click="paso = 'jugadores'" :class="[
+        <!-- <button @click="paso = 'jugadores'" :class="[
           'px-4 py-2 rounded-lg',
           paso === 'jugadores' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-200'
         ]">
@@ -37,7 +37,7 @@ const paso = ref("equipos"); // valor por defecto
           paso === 'formato' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-200'
         ]">
           Formato
-        </button>
+        </button> -->
       </div>
 
       <!-- Vistas dinámicas -->
@@ -46,12 +46,12 @@ const paso = ref("equipos"); // valor por defecto
           <ShowEquipos :torneo-id="torneoSeleccionado.id" />
         </div>
 
-        <div v-else-if="paso === 'jugadores'">
+        <!-- <div v-else-if="paso === 'jugadores'">
           <ShowJugadores :torneo-id="torneoSeleccionado" />
         </div>
 
         <div v-else-if="paso === 'formato'">
           <CardsFormatoTorneo :torneo-id="torneoSeleccionado" />
-        </div>
+        </div> -->
       </div>
 </template>

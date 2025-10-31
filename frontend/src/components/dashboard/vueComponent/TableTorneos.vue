@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import TorneoProgress from "./TorneoProgress.vue";
-import PasosTorneo from "./PasosTorneo.vue";
+import CompletarTorneo from "./CompletarTorneo.vue";
+import TorneoActivo from "./TorneoActivo.vue";
 
 
 const torneos = ref([]);
@@ -23,12 +24,23 @@ onMounted(async () => {
   }
 });
 
+function componentePorEstado(estado) {
+   switch (estado) {
+    case "registro":
+    return CompletarTorneo
+    case "activo":
+    return TorneoActivo
+  }
+}
+
 const torneoSeleccionado = ref(null)
 // const paso = equipos // vista por defecto
 
 function seleccionarTorneo(torneo) {
   torneoSeleccionado.value = torneo
 }
+
+
 
 </script>
 
@@ -91,7 +103,12 @@ function seleccionarTorneo(torneo) {
     <!-- Informacion del torneo: porcentaje del progreso  -->
     <TorneoProgress :torneoSeleccionado="torneoSeleccionado" />
     <!-- Pasos para completar los registros del torneo -->
-    <PasosTorneo :torneoSeleccionado="torneoSeleccionado" />
+    <!-- <PasosTorneo :torneoSeleccionado="torneoSeleccionado" /> -->
+    <!-- Mostrar componente según el estado -->
+  <component 
+    :is="componentePorEstado(torneoSeleccionado.estado)" 
+    :torneoSeleccionado="torneoSeleccionado" 
+  />
 
     <!--Seccion de Acciones Rapidas  -->
       <div class="space-y-6 mt-4">
