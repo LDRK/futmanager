@@ -50,6 +50,7 @@ onMounted(async () => {
          backdrop-blur-[10px] 
          border border-[rgba(148,163,184,0.1)] 
          p-6">
+        
          <div class="flex justify-between ">
             <h2 class="text-gray-800 dark:text-white text-[20px] mb-5 font-semibold">
           Lista de jugadores

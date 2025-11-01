@@ -5,7 +5,7 @@ class EquipoSerializer(serializers.ModelSerializer):
     fecha_inscripcion = serializers.DateTimeField(format="%Y-%m-%d")
     class Meta:
         model = Equipo
-        fields = ['nombre', 'fecha_inscripcion']
+        fields = ['id','nombre', 'fecha_inscripcion']
 
         
     

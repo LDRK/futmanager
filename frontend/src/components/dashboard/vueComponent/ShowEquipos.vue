@@ -26,6 +26,7 @@ onMounted(async () => {
 const equipoSeleccionado = ref(null)
 
 function seleccionarEquipo(equipo) {
+  console.log('Equipo seleccionado', equipo)
   equipoSeleccionado.value = equipo
 }
 

@@ -24,7 +24,7 @@ onMounted(async () => {
     
 });
 
-// Treamos los esquipos del troneo
+// Treamos los equipos del torneo
 onMounted(async () => {
   try {
     const res = await fetch("http://127.0.0.1:8000/api/equipo/");
@@ -51,7 +51,7 @@ const torneosActivos = computed(() =>
   torneos.value.filter(t => t.activo === true).length
 );
 
-const torneosPendientes = computed(() =>
+const torneosInactivos = computed(() =>
   torneos.value.filter(t => t.activo === false).length
 );
 
@@ -80,23 +80,23 @@ const torneosPendientes = computed(() =>
 
         <div class="bg-white p-6 rounded-lg shadow-md dark:bg-[rgba(30,41,59,0.5)]
          backdrop-blur-[10px]">
-            <p class="text-sm text-gray-500 dark:text-slate-50">Total Torneos</p>
+            <h1 class="text-md text-gray-500 dark:text-slate-50">Total Torneos</h1>
             <h2 class="text-3xl font-bold text-purple-700 mt-2 dark:text-orange-500">{{ totalTorneos }}</h2>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md dark:bg-[rgba(30,41,59,0.5)]
          backdrop-blur-[10px]">
-            <p class="text-sm text-gray-500 dark:text-slate-50">Total de Equipos</p>
+            <h1 class="text-md text-gray-500 dark:text-slate-50">Total de Equipos</h1>
             <h2 class="text-3xl font-bold text-green-600 mt-2 dark:text-orange-500">{{ totalEquipos }}</h2>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md dark:bg-[rgba(30,41,59,0.5)]
          backdrop-blur-[10px]">
-            <p class="text-sm text-gray-500 dark:text-slate-50">Torneos Activos</p>
+            <h1 class="text-md text-gray-500 dark:text-slate-50">Torneos Activos</h1>
             <h2 class="text-3xl font-bold text-blue-600 mt-2 dark:text-orange-500">{{ torneosActivos }}</h2>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md dark:bg-[rgba(30,41,59,0.5)]
          backdrop-blur-[10px]">
-            <p class="text-sm text-gray-500 dark:text-slate-50">Torneos Pendientes</p>
-            <h2 class="text-3xl font-bold text-red-500 mt-2 dark:text-orange-500">{{ torneosPendientes }}</h2>
+            <h1 class="text-md text-gray-500 dark:text-slate-50">Torneos Inactivos</h1>
+            <h2 class="text-3xl font-bold text-red-500 mt-2 dark:text-orange-500">{{ torneosInactivos }}</h2>
         </div>
     </div>
     </section>

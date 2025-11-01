@@ -37,6 +37,7 @@ const torneoSeleccionado = ref(null)
 // const paso = equipos // vista por defecto
 
 function seleccionarTorneo(torneo) {
+  // console.log("Torneo seleccionado:", torneo);
   torneoSeleccionado.value = torneo
 }
 
@@ -121,7 +122,7 @@ function seleccionarTorneo(torneo) {
               <button class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
                 Generate Report
               </button>
-              <button @click="torneoSeleccionado = null" class="w-full bg-slate-700 hover:bg-slate-600 py-3 rounded-lg font-semibold transition-all">
+              <button @click="torneoSeleccionado = null" class="w-full bg-slate-700 hover:bg-slate-600 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
                 ← Volver a torneos
               </button>
             </div>

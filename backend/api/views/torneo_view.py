@@ -25,7 +25,7 @@ def torneo_view(request):
         return Response(torneo_serizers.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET','PUT','DELETE'])
+@api_view(['GET','PUT','PATCH','DELETE'])
 def torneo_detail(request, pk=None):
     """Vista API para operaciones específicas de un docente por ID"""
     
@@ -39,6 +39,14 @@ def torneo_detail(request, pk=None):
         
         elif request.method == 'PUT':
             # Actualizamod el torneo
+            torneo_serizers = TorneoSerializer(torneo_id, data = request.data)
+            if torneo_serizers.is_valid():
+                torneo_serizers.save()
+                return Response({'message':'Registro actualizado correctamente'}, status = status.HTTP_201_CREATED)
+            return Response(torneo_serizers.errors)
+        
+        elif request.method == 'PATCH':
+            # Actualizamos un campo especifico del torneo
             torneo_serizers = TorneoSerializer(torneo_id, data = request.data)
             if torneo_serizers.is_valid():
                 torneo_serizers.save()
