@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import { ref, watch, defineEmits, defineProps } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 

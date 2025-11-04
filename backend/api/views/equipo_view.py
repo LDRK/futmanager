@@ -69,3 +69,27 @@ def equipo_details_view(request,pk=None):
     else:
         # Equipo no encontrado
         return Response({'Error':'Pagina no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+    
+# Listamos los equipos por su torneo
+@api_view(['GET'])
+def equipos_por_torneo(request, pk=None):
+    """Lista los equipos asociados a un torneo específico"""
+    
+    if request.method == 'GET':
+        try:
+            # Verificamos que el torneo exista
+            torneo = Torneo.objects.get(id=pk)
+        except Torneo.DoesNotExist:
+            return Response({'error': 'Torneo no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Obtenemos las relaciones equipo-torneo
+        equipos_relacionados = EquipoTorneo.objects.filter(torneo=torneo).select_related('equipo')
+        
+        # Extraemos los equipos directamente
+        equipos = [rel.equipo for rel in equipos_relacionados]
+        
+        # Serializamos los equipos
+        serializer = EquipoSerializer(equipos, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({'Error':'Pagina no encontrada'}, status=status.HTTP_404_NOT_FOUND)

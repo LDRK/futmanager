@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import Swal from "sweetalert2";
 import ModalRegisterEquipo from "./modals/ModalRegisterEquipo.vue";
 import ShowJugadores from "./ShowJugadores.vue";
 
@@ -8,9 +9,18 @@ const showModal = ref(false)
 const loading = ref(true);
 const error = ref(null);
 
+
+const props = defineProps({
+  torneoId: {
+    type: Number,
+    required: true,
+  },
+});
+
+
 onMounted(async () => {
   try {
-    const res = await fetch("http://127.0.0.1:8000/api/equipo/");
+    const res = await fetch(`http://127.0.0.1:8000/api/equipo/torneo/${props.torneoId}/`);
     if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
     const data = await res.json();
     equipos.value = data;
@@ -26,9 +36,42 @@ onMounted(async () => {
 const equipoSeleccionado = ref(null)
 
 function seleccionarEquipo(equipo) {
-  console.log('Equipo seleccionado', equipo)
+  // console.log('Equipo seleccionado', equipo)
   equipoSeleccionado.value = equipo
 }
+
+// Logica para eliminar equipos
+const eliminarEquipo = async (equipoId) => {
+  const confirm = await Swal.fire({
+    title: "¿Eliminar equipo?",
+    text: "Esta acción no se puede deshacer.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  });
+
+  if (!confirm.isConfirmed) return;
+
+  try {
+    const res = await fetch(`http://127.0.0.1:8000/api/equipo/${equipoId}/`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) throw new Error("Error al eliminar el equipo");
+
+    Swal.fire("Eliminado", "El equipo ha sido eliminado correctamente", "success");
+
+    // Removerlo de la lista sin recargar
+    equipos.value = equipos.value.filter(e => e.id !== equipoId);
+
+  } catch (error) {
+    console.error(error);
+    Swal.fire("Error", "No se pudo eliminar el equipo", "error");
+  }
+};
 
 </script>
 <template>
@@ -79,7 +122,7 @@ function seleccionarEquipo(equipo) {
                   <button class="px-2 py-2 rounded-lg bg-orange-500 text-slate-50 dark:text-slate-50 dark:bg-orange-500 dark:hover:bg-orange-600">
                       Editar
                   </button>
-                  <button class="px-2 py-2 rounded-lg bg-red-600 text-slate-50 dark:text-slate-50 dark:bg-red-600 dark:hover:bg-red-700">
+                  <button @click="eliminarEquipo(equipo.id)" class="px-2 py-2 rounded-lg bg-red-600 text-slate-50 dark:text-slate-50 dark:bg-red-600 dark:hover:bg-red-700">
                       Eliminar
                   </button>
                 </div>
@@ -97,5 +140,5 @@ function seleccionarEquipo(equipo) {
   </section>
    
        <!-- Componente Modal -->
-  <ModalRegisterEquipo :visible="showModal" @close="showModal = false" />
+  <ModalRegisterEquipo :visible="showModal" :torneo-id="props.torneoId" @close="showModal = false" />
 </template>

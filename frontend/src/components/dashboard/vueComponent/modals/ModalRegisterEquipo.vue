@@ -54,20 +54,29 @@
   </transition>
 </template>
 <script setup>
-import { ref, watch, defineEmits, defineProps } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
 // Props y emits
-const props = defineProps({ visible: Boolean })
+const props = defineProps({
+  visible: Boolean,
+  torneoId: {
+    type: Number,
+    required: true,
+  },
+})
+
 const emit = defineEmits(['close', 'success'])
 
 // Formulario
 const form = ref({
   nombre: '',
   fecha_inscripcion: '',
-  torneo_id: 1
+  torneo_id: props.torneoId,
   })
+
+
 
 // Cerrar modal
 const cerrar = () => emit('close')
@@ -76,12 +85,12 @@ const cerrar = () => emit('close')
 const registrarEquipo = async () => {
   try {
     await axios.post('http://127.0.0.1:8000/api/equipo/', form.value)
-    Swal.fire('Torneo creado', '', 'success')
+    Swal.fire('Equipo creado', '', 'success')
     emit('success') // notifica al padre que se registró correctamente
     cerrar()
   } catch (error) {
     console.error(error)
-    Swal.fire('Error', 'No se pudo registrar el torneo', 'error')
+    Swal.fire('Error', 'No se pudo registrar el equipo', 'error')
   }
 }
 </script>

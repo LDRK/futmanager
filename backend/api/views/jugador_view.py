@@ -52,3 +52,15 @@ def jugador_details_view(request,pk=None):
     else:
         # Jugador no encontrado
         return Response({'Error':'Pagina no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+    
+# Listamos los jugadores por su equipo
+@api_view(['GET'])
+def jugadores_por_equipo(request, pk=None):
+    """Lista los Jugadores asociados a un Equipo específico"""
+    
+    if request.method == 'GET':
+        jugadores = Jugador.objects.filter(equipo_id=pk)
+        serializer = JugadorSerializer(jugadores, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({'Error':'Pagina no encontrada'}, status=status.HTTP_404_NOT_FOUND)

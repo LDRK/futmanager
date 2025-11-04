@@ -2,55 +2,83 @@
 import { ref } from "vue";
 import Swal from "sweetalert2";
 import axios from "axios";
-defineProps({
-    torneoSeleccionado: {
-        type: Object,
-        required: true
-    }
-})
+
+const props = defineProps({
+  torneoSeleccionado: {
+    type: Object,
+    required: true,
+  },
+});
 
 const emit = defineEmits(["estadoActualizado"]);
 
 async function cambiarEstadoTorneo() {
-    const confirmar = await Swal.fire({
-        title: "¿Finalizar registro del torneo?",
-        text: "Una vez finalizado, no podrás registrar más equipos ni jugadores (aunque luego puedes reabrirlo).",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Sí, finalizar",
-        cancelButtonText: "Cancelar",
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+  // Detectamos si está en registro o activo
+  const esRegistro = props.torneoSeleccionado.estado === "registro";
+
+  // Texto dinámico según el estado
+  const titulo = esRegistro
+    ? "¿Finalizar registro del torneo?"
+    : "¿Reabrir registro del torneo?";
+  const texto = esRegistro
+    ? "Una vez finalizado, no podrás registrar más equipos ni jugadores (aunque luego puedes reabrirlo)."
+    : "Podrás volver a registrar equipos y jugadores nuevamente.";
+  const confirmBtn = esRegistro ? "Sí, finalizar" : "Sí, reabrir";
+
+  const confirmar = await Swal.fire({
+    title: titulo,
+    text: texto,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: confirmBtn,
+    cancelButtonText: "Cancelar",
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+  });
+
+  if (!confirmar.isConfirmed) return;
+
+  try {
+    const nuevoEstado = esRegistro ? "activo" : "registro";
+
+    // Construimos el JSON con los datos del torneo
+    const torneoActualizado = {
+      nombre: props.torneoSeleccionado.nombre,
+      descripcion: props.torneoSeleccionado.descripcion,
+      fecha_inicio: props.torneoSeleccionado.fecha_inicio,
+      fecha_fin: props.torneoSeleccionado.fecha_fin,
+      organizador: 1, // Fijo por ahora
+      estado: nuevoEstado,
+    };
+
+    // Enviamos la actualización al backend
+    const response = await axios.patch(
+      `http://127.0.0.1:8000/api/torneos/${props.torneoSeleccionado.id}/`,
+      torneoActualizado
+    );
+
+    // Actualizamos visualmente el estado en el objeto
+    props.torneoSeleccionado.estado = nuevoEstado;
+
+    // Swal de éxito dinámico
+    Swal.fire({
+      title: "Torneo actualizado",
+      text: esRegistro
+        ? "El torneo ha pasado al estado ACTIVO correctamente."
+        : "El torneo ha sido reabierto para registro.",
+      icon: "success",
+      timer: 2000,
+      showConfirmButton: false,
     });
 
-    if (!confirmar.isConfirmed) return;
-
-    try {
-        // Construimos el JSON completo con los datos del torneo
-        const torneoActualizado = {
-            nombre: props.torneoSeleccionado.nombre,
-            descripcion: props.torneoSeleccionado.descripcion,
-            fecha_inicio: props.torneoSeleccionado.fecha_inicio,
-            fecha_fin: props.torneoSeleccionado.fecha_fin,
-            // organizador: props.torneoSeleccionado.organizador,
-            organizador: 1, // Id del usuario fijo, no esta disponible los tokens de acceso, con roles diferenciados. 
-            estado: "activo", // el nuevo estado del torneo
-        };
-
-        // Enviamos la actualización al backend
-        const response = await axios.patch(
-            `http://127.0.0.1:8000/api/torneos/${props.torneoSeleccionado.id}/`,
-            torneoActualizado
-        );
-
-        Swal.fire("Torneo actualizado", "El estado se cambió correctamente", "success");
-        emit("estadoActualizado", response.data);
-    } catch (error) {
-        console.error("Error al cambiar el estado:", error);
-        Swal.fire("Error", "No se pudo cambiar el estado del torneo", "error");
-    }
+    emit("estadoActualizado", response.data);
+  } catch (error) {
+    console.error("Error al cambiar el estado:", error);
+    Swal.fire("Error", "No se pudo cambiar el estado del torneo", "error");
+  }
 }
 </script>
+
 <template>
     <div
         class="bg-gradient-to-r from-blue-900/40 to-purple-900/40 backdrop-blur-sm rounded-xl p-6 mb-8 border border-blue-500/30 shadow-2xl">
@@ -80,10 +108,19 @@ async function cambiarEstadoTorneo() {
                     class="bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm font-semibold border border-green-500/30">
                     En Progreso
                 </span>
-                <button @click="cambiarEstadoTorneo"
-                    class="flex bg-purple-600 text-white px-2 py-2 rounded-lg shadow dark:bg-orange-600 dark:hover:bg-orange-700">
-                    Finalizar Registro
-                </button>
+                <button
+              @click="cambiarEstadoTorneo"
+              :class="[
+                'px-4 py-2 rounded-lg font-semibold transition-all',
+                torneoSeleccionado.estado === 'registro'
+                  ? 'bg-green-600 hover:bg-green-700 text-white'
+                  : 'bg-blue-600 hover:bg-blue-700 text-white'
+              ]"
+            >
+              {{ torneoSeleccionado.estado === 'registro'
+                ? 'Finalizar Registro'
+                : 'Reabrir Registro' }}
+            </button>
             </div>
 
         </div>

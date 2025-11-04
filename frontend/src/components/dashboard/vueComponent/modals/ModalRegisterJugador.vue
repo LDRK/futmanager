@@ -36,7 +36,7 @@
           />
           <input
             type="number"
-            v-model="form.nCamiseta"
+            v-model="form.numero_camiseta"
             placeholder="Numero de la Camiseta"
             class="block w-full rounded-md bg-white/5 px-3 py-3 mb-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
             required
@@ -71,12 +71,21 @@
   </transition>
 </template>
 <script setup>
-import { ref, watch, defineEmits, defineProps } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
 // Props y emits
-const props = defineProps({ visible: Boolean })
+const props = defineProps({
+  visible: Boolean,
+  equipoSeleccionado: {
+    type: Object,
+    required: true,
+  }, 
+})
+
+
+
 const emit = defineEmits(['close', 'success'])
 
 // Formulario
@@ -84,8 +93,8 @@ const form = ref({
   nombre: '',
   apellido: '',
   posicion: '',
-  nCamiseta: '',
-  equipo: 1
+  numero_camiseta: '',
+  equipo: props.equipoSeleccionado.id
   })
 
 // Cerrar modal
