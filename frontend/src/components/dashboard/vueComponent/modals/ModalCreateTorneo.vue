@@ -36,6 +36,19 @@
             class="block w-full rounded-md bg-white/5 px-3 py-3 mb-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
             required
           />
+          <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-300 mb-2">Formato del Torneo</label>
+          <select 
+          v-model="form.formato" 
+          class="block w-full rounded-md bg-white/90 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-3 py-3 mb-2 text-base outline-1 outline-gray-300 dark:outline-gray-600 focus:outline-2 focus:outline-indigo-500 sm:text-sm/6"
+          >
+            <option disabled value="">Selecciona un formato</option>
+            <option value="todos">Todos contra todos</option>
+            <option value="eliminacion">Eliminación directa</option>
+            <option value="grupos">Por grupos</option>
+          </select>
+          </div>
+
 
           <div class="flex justify-end mt-4 gap-2">
             <button
@@ -80,7 +93,8 @@ const form = ref({
   descripcion: '',
   fecha_inicio: '',
   fecha_fin: '',
-  organizador: 1
+  organizador: 1,
+  formato: '',
 })
 
 // Cerrar modal
