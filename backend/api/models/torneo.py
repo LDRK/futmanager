@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from .equipo import EquipoTorneo
+from .partido import Partido
+from ..utils.fixture import fixture_eliminacion,fixture_por_grupos,fixture_todos_contra_todos
 
 # Modelo Torneo 
 class Torneo(models.Model):
@@ -43,6 +45,58 @@ class Torneo(models.Model):
     def __str__(self):
         return self.nombre
     
+    # Aquí se genera automáticamente el fixture cuando se llama el método
+def generar_fixture(torneo):
+    # Obtenemos los equipos inscritos en este torneo
+    equipos_torneo = list(EquipoTorneo.objects.filter(torneo=torneo))
+    formato = torneo.formato
+
+    if len(equipos_torneo) < 2:
+        raise ValueError("Debe haber al menos dos equipos inscritos para generar el fixture.")
+
+    if formato == "todos":
+        jornadas = fixture_todos_contra_todos(equipos_torneo)
+        for i, jornada in enumerate(jornadas, start=1):
+            for local, visitante in jornada:
+                Partido.objects.create(
+                    torneo=torneo,
+                    equipo_local=local,
+                    equipo_visitante=visitante,
+                    fecha_partido=None,
+                    lugar_partido="Por definir",
+                )
+
+    elif formato == "eliminacion":
+        rondas = fixture_eliminacion(equipos_torneo)
+        for ronda, enfrentamientos in enumerate(rondas, start=1):
+            for local, visitante in enfrentamientos:
+                Partido.objects.create(
+                    torneo=torneo,
+                    equipo_local=local,
+                    equipo_visitante=visitante,
+                    fecha_partido=None,
+                    lugar_partido="Por definir",
+                )
+
+    elif formato == "grupos":
+        grupos = fixture_por_grupos(equipos_torneo)
+        for nombre, jornadas in grupos.items():
+            for i, jornada in enumerate(jornadas, start=1):
+                for local, visitante in jornada:
+                    Partido.objects.create(
+                        torneo=torneo,
+                        equipo_local=local,
+                        equipo_visitante=visitante,
+                        fecha_partido=None,
+                        lugar_partido="Por definir",
+                    )
+
+    torneo.estado = "activo"
+    torneo.save()
+    return "Fixture generado correctamente."
+
+
+
 
 # Modelo Estadisticas_torneo_equipo
 class Estadistica_torneo_equipo(models.Model):

@@ -1,5 +1,5 @@
 from django.urls import path
-from api.views.torneo_view import torneo_view, torneo_detail
+from api.views.torneo_view import torneo_view, torneo_detail, generar_fixture_view
 from api.views.equipo_view import equipo_api_view, equipo_details_view, equipos_por_torneo
 from api.views.jugador_view import jugador_api_view, jugador_details_view, jugadores_por_equipo
 from api.views.partido_view import partido_api_view, partido_details_view
@@ -10,6 +10,7 @@ urlpatterns = [
     # Torneo
     path('torneos/', torneo_view, name='torneo-list'),
     path('torneos/<int:pk>/', torneo_detail, name='torneo-detail'),
+    path('torneos/<int:pk>/generar_fixture/', generar_fixture_view, name='generar_fixture'),
     
     # Equipo
     path('equipo/', equipo_api_view, name='equipo_api'),

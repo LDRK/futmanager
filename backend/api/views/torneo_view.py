@@ -3,6 +3,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from api.models.torneo import Torneo, Estadistica_torneo_equipo
 from api.serializers.torneo_serializer import TorneoSerializer, EstadisticasEquipoSerializer
+from api.models.torneo import generar_fixture
+
 
 
 # LISTAR TORNEOS
@@ -62,7 +64,26 @@ def torneo_detail(request, pk=None):
         return Response({'Error':'Pagina no encontrada'}, status=status.HTTP_404_NOT_FOUND)
 
 
+# Vista para generar el fixture del torneo
+@api_view(['POST'])
+def generar_fixture_view(request, pk=None):
+    if request.method == "POST":
+        try:
+            torneo = Torneo.objects.get(pk=pk)
+            print(torneo)
 
+            # Evitar generar fixture si ya existe
+            if torneo.partido_set.exists():
+                return Response({'error': 'El fixture ya fue generado.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Ejecutar el algoritmo
+            generar_fixture(torneo)
+          
+
+            return Response({'success': True, 'message': 'Fixture generado correctamente.'}, status=status.HTTP_200_OK)
+
+        except Torneo.DoesNotExist:
+            return Response({'error': 'Torneo no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
         
     
 

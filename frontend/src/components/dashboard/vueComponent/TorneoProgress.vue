@@ -127,7 +127,7 @@ async function cambiarEstadoTorneo() {
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
                 <p class="text-slate-400 text-sm mb-1">Fase Actual</p>
-                <p class="text-lg font-semibold">Fase de Grupos</p>
+                <p class="text-lg font-semibold">{{ torneoSeleccionado.formato }}</p>
             </div>
             <div>
                 <p class="text-slate-400 text-sm mb-1">Jornada</p>
