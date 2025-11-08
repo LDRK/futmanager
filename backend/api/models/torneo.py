@@ -47,17 +47,27 @@ class Torneo(models.Model):
     
     # Aquí se genera automáticamente el fixture cuando se llama el método
 def generar_fixture(torneo):
-    # Obtenemos los equipos inscritos en este torneo
+    """
+    Genera el fixture del torneo según su formato: todos contra todos, eliminación o grupos.
+    """
     equipos_torneo = list(EquipoTorneo.objects.filter(torneo=torneo))
     formato = torneo.formato
 
+    # Validación mínima
     if len(equipos_torneo) < 2:
         raise ValueError("Debe haber al menos dos equipos inscritos para generar el fixture.")
 
+    # Evitar duplicados si ya tiene partidos
+    if Partido.objects.filter(torneo=torneo).exists():
+        raise ValueError("El fixture ya fue generado para este torneo.")
+
+    # --- FORMATO: TODOS CONTRA TODOS ---
     if formato == "todos":
         jornadas = fixture_todos_contra_todos(equipos_torneo)
         for i, jornada in enumerate(jornadas, start=1):
             for local, visitante in jornada:
+                if not local or not visitante:
+                    continue
                 Partido.objects.create(
                     torneo=torneo,
                     equipo_local=local,
@@ -66,10 +76,13 @@ def generar_fixture(torneo):
                     lugar_partido="Por definir",
                 )
 
+    # --- FORMATO: ELIMINACIÓN ---
     elif formato == "eliminacion":
         rondas = fixture_eliminacion(equipos_torneo)
         for ronda, enfrentamientos in enumerate(rondas, start=1):
             for local, visitante in enfrentamientos:
+                if not local or not visitante:
+                    continue
                 Partido.objects.create(
                     torneo=torneo,
                     equipo_local=local,
@@ -78,11 +91,14 @@ def generar_fixture(torneo):
                     lugar_partido="Por definir",
                 )
 
+    # --- FORMATO: GRUPOS ---
     elif formato == "grupos":
         grupos = fixture_por_grupos(equipos_torneo)
         for nombre, jornadas in grupos.items():
             for i, jornada in enumerate(jornadas, start=1):
                 for local, visitante in jornada:
+                    if not local or not visitante:
+                        continue
                     Partido.objects.create(
                         torneo=torneo,
                         equipo_local=local,
@@ -91,8 +107,10 @@ def generar_fixture(torneo):
                         lugar_partido="Por definir",
                     )
 
+    # Cambiamos estado del torneo
     torneo.estado = "activo"
     torneo.save()
+
     return "Fixture generado correctamente."
 
 

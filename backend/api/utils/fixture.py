@@ -4,24 +4,28 @@ import math
 # 🔹 --- ALGORITMOS DE GENERACIÓN DE FIXTURE --- 🔹
 
 def fixture_todos_contra_todos(equipos):
-    """Genera rondas todos contra todos"""
+    """
+    Genera un fixture todos contra todos.
+    Retorna una lista de jornadas, donde cada jornada es una lista de tuplas (local, visitante).
+    """
+    equipos = list(equipos)
     if len(equipos) % 2 != 0:
-        equipos.append(None)  # equipo que descansa
+        equipos.append(None)  # Si hay número impar, agregamos un "bye"
 
     n = len(equipos)
-    jornadas = []
+    fixture = []
 
     for i in range(n - 1):
         jornada = []
         for j in range(n // 2):
-            e1 = equipos[j]
-            e2 = equipos[n - 1 - j]
-            if e1 and e2:
-                jornada.append((e1, e2))
-        jornadas.append(jornada)
-        equipos.insert(1, equipos.pop())  # rotación circular
+            local = equipos[j]
+            visitante = equipos[n - 1 - j]
+            if local and visitante:  # Evitamos Nones
+                jornada.append((local, visitante))
+        fixture.append(jornada)
+        equipos.insert(1, equipos.pop())  # Rotamos los equipos
 
-    return jornadas
+    return fixture
 
 
 def fixture_eliminacion(equipos):

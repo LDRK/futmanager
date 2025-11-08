@@ -1,4 +1,34 @@
 <script setup>
+import { ref, onMounted } from "vue";
+import Swal from "sweetalert2";
+
+const partidos = ref([]);
+const loading = ref(true);
+const error = ref(null);
+
+
+const props = defineProps({
+  torneoId: {
+    type: Number,
+    required: true,
+  },
+});
+
+
+onMounted(async () => {
+  try {
+    const res = await fetch(`http://127.0.0.1:8000/api/partidos/`);
+    if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+    const data = await res.json();
+    partidos.value = data;
+    console.log(data)
+  } catch (err) {
+    console.error("Error al traer los equipos:", err);
+    error.value = err.message;
+  } finally {
+    loading.value = false;
+  }
+});
 
 </script>
 <template>
@@ -24,7 +54,7 @@
             </div>
 
             <div class="space-y-4">
-                <div class="bg-slate-700/50 rounded-xl p-6 hover:bg-slate-700 transition">
+                <div v-for="partido in partidos" :key="partido.id" class="bg-slate-700/50 rounded-xl p-6 hover:bg-slate-700 transition">
                   <div class="flex items-center justify-between mb-4">
                     <div>
                       <span class="text-purple-400 font-semibold">Jornada</span>
@@ -37,7 +67,7 @@
                   
                   <div class="flex items-center justify-center gap-8">
                     <div class="text-right flex-1">
-                      <p class="text-xl font-bold">Equipo 1</p>
+                      <p class="text-xl font-bold">{{ partido.equipo_local }}</p>
                     </div>
                     <div class="bg-slate-800 px-6 py-3 rounded-lg">
                       <p class="text-3xl font-bold">
@@ -45,7 +75,7 @@
                       </p>
                     </div>
                     <div class="text-left flex-1">
-                      <p class="text-xl font-bold">Equipo 2</p>
+                      <p class="text-xl font-bold">{{ partido.equipo_visitante }}</p>
                     </div>
                   </div>
 
