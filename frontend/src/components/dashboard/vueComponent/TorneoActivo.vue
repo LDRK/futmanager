@@ -4,6 +4,14 @@ import PartidosComponent from './torneoActivo/PartidosComponent.vue';
 import TablaTorneo from "./torneoActivo/TablaTorneo.vue";
 import EstadisticasTorneo from "./torneoActivo/EstadisticasTorneo.vue";
 
+const props = defineProps({
+  torneoSeleccionado: {
+    type: Object,
+    required: true,
+  },
+});
+
+
 const paso = ref('partidos')
 </script>
 <template>
@@ -42,7 +50,7 @@ const paso = ref('partidos')
     <div class="col-span-2 bg-slate-800/50 p-6 rounded-lg shadow">
           <!-- Renderiza el paso seleccionado -->
           <div v-if="paso === 'partidos'">
-            <PartidosComponent/>
+            <PartidosComponent :torneo-id="torneoSeleccionado.id"/>
           </div>
           <div v-else-if="paso === 'tabla'">
             <TablaTorneo/>

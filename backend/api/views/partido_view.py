@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from api.models.partido import Partido
 from api.serializers.partido_serializer import PartidoSerializer
+from rest_framework.pagination import PageNumberPagination
 
 
 # LISTAR PARTIDOS
@@ -52,6 +53,24 @@ def partido_details_view(request, pk=None):
     else:
         # Partidoneo no encontrado
         return Response({'Error':'Pagina no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+
+# Listar los partidos por torneo
+@api_view(['GET'])
+def partidos_por_torneo(request, pk):
+    
+    partidos = Partido.objects.filter(torneo_id=pk).order_by('id')
+    
+    # Creamos la instacion para la paginacion
+    pagination_class = PageNumberPagination()
+    pagination_class.page_size = 5
+    
+    # Aplicamos paginacion al queryset
+    result_page = pagination_class.paginate_queryset(partidos, request)
+    # serializer = PartidoSerializer(partidos, many=True)
+    serializer = PartidoSerializer(result_page, many=True)
+    
+    
+    return pagination_class.get_paginated_response(serializer.data)
 
 
 

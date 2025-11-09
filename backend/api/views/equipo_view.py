@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from api.models.equipo import Equipo,EquipoTorneo
 from api.models.torneo import Torneo
 from api.serializers.equipo_serializer import EquipoSerializer
+from rest_framework.pagination import PageNumberPagination
 
 @api_view(['GET', 'POST'])
 def equipo_api_view(request):
@@ -13,6 +14,8 @@ def equipo_api_view(request):
         # Obtener todos los equipos y serializarlos
         equipo = Equipo.objects.all()
         equipo_serializers = EquipoSerializer(equipo, many=True)
+        pagination_class = PageNumberPagination
+        pagination_class.page_size = 2
         return Response(equipo_serializers.data, status=status.HTTP_200_OK)
     
     elif request.method == 'POST':
