@@ -4,9 +4,21 @@ from rest_framework.response import Response
 from api.models.partido import Partido
 from api.serializers.partido_serializer import PartidoSerializer
 from rest_framework.pagination import PageNumberPagination
+from drf_yasg.utils import swagger_auto_schema
 
 
 # LISTAR PARTIDOS
+@swagger_auto_schema(
+    method='get',
+    operation_description="Obtiene la lista de partidos registrados",
+    responses={200: PartidoSerializer(many=True)}
+)
+@swagger_auto_schema(
+    method='post',
+    operation_description="Registra un nuevo partido",
+    request_body=PartidoSerializer,
+    responses={201: PartidoSerializer}
+)
 @api_view(['GET','POST'])
 def partido_api_view(request):
     """Vista API para listar todos los Partidos (GET) y crear nuevos (POST)"""
