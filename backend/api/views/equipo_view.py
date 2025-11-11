@@ -5,7 +5,30 @@ from api.models.equipo import Equipo,EquipoTorneo
 from api.models.torneo import Torneo
 from api.serializers.equipo_serializer import EquipoSerializer
 from rest_framework.pagination import PageNumberPagination
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
+
+# LISTAR Y CREAR EQUIPOS
+
+@swagger_auto_schema(
+    method='get',
+    operation_summary="Listar Equipos",
+    operation_description="Obtiene la lista completa de equipos registrados en el sistema.",
+    responses={200: EquipoSerializer(many=True)},
+    tags=['Equipo']
+)
+@swagger_auto_schema(
+    method='post',
+    operation_summary="Registrar un nuevo equipos",
+    operation_description="Crea un nuevo equipos con la información enviada en el cuerpo de la solicitud.",
+    request_body=EquipoSerializer,
+    responses={
+        201: openapi.Response("Equipo creado correctamente", EquipoSerializer),
+        400: "Error en los datos enviados"
+    },
+    tags=['Equipo']
+)
 @api_view(['GET', 'POST'])
 def equipo_api_view(request):
     """Vista API para listar todos los equipos (GET) y crear nuevos vinculados a torneos (POST)"""
@@ -44,9 +67,60 @@ def equipo_api_view(request):
 
         return Response(equipo_serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+# DETALLE, ACTUALIZACIÓN Y ELIMINACIÓN DE EQUIPOS
+
+@swagger_auto_schema(
+    methods=['get'],
+    operation_summary="Consultar Equipo por ID",
+    operation_description="Obtiene la información detallada de un equipo existente, especificando su ID en la URL.",
+    responses={
+        200: openapi.Response("Equipo encontrado", EquipoSerializer),
+        404: "Equipo no encontrado"
+    },
+    manual_parameters=[
+        openapi.Parameter(
+            'pk',
+            openapi.IN_PATH,
+            description="ID del equipo a consultar",
+            type=openapi.TYPE_INTEGER
+        )
+    ],
+    tags=['Equipo']
+)
+@swagger_auto_schema(
+    methods=['put'],
+    operation_summary="Actualizar Equipo (PUT)",
+    operation_description="Actualiza completamente la información de un equipo existente.",
+    request_body=EquipoSerializer,
+    responses={
+        200: "Equipo actualizado correctamente",
+        400: "Error en los datos enviados",
+        404: "Equipo no encontrado"
+    },
+    tags=['Equipo']
+)
+@swagger_auto_schema(
+    methods=['delete'],
+    operation_summary="Eliminar Equipo",
+    operation_description="Elimina un equipo existente identificado por su ID.",
+    responses={
+        200: "Equipo eliminado correctamente",
+        404: "Equipo no encontrado"
+    },
+    tags=['Equipo']
+)
 @api_view(['GET','PUT','DELETE'])
 def equipo_details_view(request,pk=None):
-    """Vista API para operaciones específicas de un equipo por ID"""
+    """
+    **Vista API** para operaciones específicas sobre un Equipo.
+
+    - **GET**: Obtiene el detalle de un torneo específico.  
+    - **PUT**: Actualiza completamente la información de un torneo.  
+    - **PATCH**: Modifica parcialmente los campos de un torneo.  
+    - **DELETE**: Elimina un torneo existente.  
+    """
     
     equipo_id = Equipo.objects.filter(id = pk).first()
     
@@ -72,8 +146,29 @@ def equipo_details_view(request,pk=None):
     else:
         # Equipo no encontrado
         return Response({'Error':'Pagina no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+
+
     
 # Listamos los equipos por su torneo
+
+@swagger_auto_schema(
+    method='get',
+    operation_summary="Listar los equipos de un torneo especifico",
+    operation_description="Obtiene la información detallada de los equipos existente en ese torneo, especificando el ID del torneo en la URL.",
+    responses={
+        200: openapi.Response("Equipos encontrados", EquipoSerializer),
+        404: "Equipos no encontrados"
+    },
+    manual_parameters=[
+        openapi.Parameter(
+            'pk',
+            openapi.IN_PATH,
+            description="ID del torneo a consultar",
+            type=openapi.TYPE_INTEGER
+        )
+    ],
+    tags=['Equipo']
+)
 @api_view(['GET'])
 def equipos_por_torneo(request, pk=None):
     """Lista los equipos asociados a un torneo específico"""

@@ -8,6 +8,7 @@ class JugadorSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         return {
+            'id': instance.id,
             'usuario': instance.usuario,
             'equipo': instance.equipo.nombre,
             'nombre': instance.nombre,
