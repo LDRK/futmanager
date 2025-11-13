@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
+from api.models.torneo import Torneo
 from api.models.estadisticas import EstadisticaJugador, EstadisticaEquipo
 from api.serializers.estadisticas_serializers import EstadisticasJugadorSerializer, EstadisticasEquipoSerializer
 from drf_yasg import openapi
@@ -180,3 +181,83 @@ def estadisticas_equipo_details(request,pk=None):
                 statsEquipo_serializer.save()
                 return Response({'message':'Registro actualizado correctamente'}, status = status.HTTP_201_CREATED)
             return Response( statsEquipo_serializer.errors)
+        
+
+
+# Estaditicas por torneo jugadores y equipo
+@swagger_auto_schema(
+    method='get',
+    operation_summary="Listar estadísticas completas del torneo",
+    operation_description=(
+        "Obtiene las estadísticas generales de equipos y jugadores de un torneo. "
+        "Incluye tabla de posiciones, resultados acumulados y desempeño individual de los jugadores."
+    ),
+    responses={
+        200: openapi.Response(
+            description="Estadísticas del torneo encontradas",
+            examples={
+                "application/json": {
+                    "torneo": "Champions Kick-Off 2025",
+                    "estadisticas_equipos": [
+                        {
+                            "equipo": "Los Galácticos",
+                            "puntos": 9,
+                            "partidos_ganados": 3,
+                            "partidos_perdidos": 0,
+                            "goles_a_favor": 10,
+                            "goles_en_contra": 4,
+                            "diferencia_goles": 6
+                        }
+                    ],
+                    "estadisticas_jugadores": [
+                        {
+                            "jugador": "Juan Pérez",
+                            "equipo": "Los Galácticos",
+                            "goles": 5,
+                            "asistencias": 2,
+                            "amarillas": 1,
+                            "rojas": 0
+                        }
+                    ]
+                }
+            }
+        ),
+        404: "No se encontraron estadísticas para este torneo"
+    },
+    manual_parameters=[
+        openapi.Parameter(
+            'pk',
+            openapi.IN_PATH,
+            description="ID del torneo a consultar",
+            type=openapi.TYPE_INTEGER
+        )
+    ],
+    tags=['Torneo']
+)
+@api_view(['GET'])
+def estadisticas_por_torneo(request, pk=None):
+    """Devuelve las estadísticas completas (equipos y jugadores) de un torneo"""
+
+    try:
+        torneo = Torneo.objects.get(pk=pk)
+    except Torneo.DoesNotExist:
+        return Response({'detail': 'El torneo no existe.'}, status=status.HTTP_404_NOT_FOUND)
+
+    # Estadísticas de equipos
+    estadisticas_equipos = EstadisticaEquipo.objects.filter(torneo=torneo)
+    # Estadísticas de jugadores (filtradas por partidos del torneo)
+    estadisticas_jugadores = EstadisticaJugador.objects.filter(partido__torneo=torneo)
+
+    if not estadisticas_equipos.exists() and not estadisticas_jugadores.exists():
+        return Response({'detail': 'No se encontraron estadísticas registradas para este torneo.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer_equipos = EstadisticasEquipoSerializer(estadisticas_equipos, many=True)
+    serializer_jugadores = EstadisticasJugadorSerializer(estadisticas_jugadores, many=True)
+
+    data = {
+        "torneo": torneo.nombre,
+        "estadisticas_equipos": serializer_equipos.data,
+        "estadisticas_jugadores": serializer_jugadores.data
+    }
+
+    return Response(data, status=status.HTTP_200_OK)

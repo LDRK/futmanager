@@ -53,10 +53,10 @@ const paso = ref('partidos')
             <PartidosComponent :torneo-id="torneoSeleccionado.id"/>
           </div>
           <div v-else-if="paso === 'tabla'">
-            <TablaTorneo/>
+            <TablaTorneo :torneo-id="torneoSeleccionado.id"/>
           </div>
           <div v-else-if="paso === 'estadisticas'">
-            <EstadisticasTorneo/>
+            <EstadisticasTorneo :torneo-id="torneoSeleccionado.id"/>
           </div>
           <div v-else>
             <p>Selecciona una opción para continuar.</p>

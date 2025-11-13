@@ -25,7 +25,3 @@ class TorneoSerializer(serializers.ModelSerializer):
         }
 
 
-class EstadisticasEquipoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Estadistica_torneo_equipo
-        fields = '__all__'

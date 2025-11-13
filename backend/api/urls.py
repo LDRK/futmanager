@@ -3,7 +3,7 @@ from api.views.torneo_view import torneo_view, torneo_detail, generar_fixture_vi
 from api.views.equipo_view import equipo_api_view, equipo_details_view, equipos_por_torneo
 from api.views.jugador_view import jugador_api_view, jugador_details_view, jugadores_por_equipo
 from api.views.partido_view import partido_api_view, partido_details_view, partidos_por_torneo
-from api.views.estadisticas_view import estadisticas_jugador_list, estadisticas_jugador_details, estadisticas_equipo_list, estadisticas_equipo_details
+from api.views.estadisticas_view import estadisticas_jugador_list, estadisticas_jugador_details, estadisticas_equipo_list, estadisticas_equipo_details, estadisticas_por_torneo
 
 
 urlpatterns = [
@@ -32,7 +32,12 @@ urlpatterns = [
     path('estadisticas-jugador/', estadisticas_jugador_list, name='estadisticasJugador-list'),
     path('estadisticas-jugador/<int:pk>/', estadisticas_jugador_details, name='estadisticasJugador-details'),
     
+    
+    
     # Estadisticas Equipo
     path('estadisticas-equipo/', estadisticas_equipo_list, name='estadisticasEquipo-list'),
-    path('estadisticas-equipo/<int:pk>/', estadisticas_equipo_details, name='estadisticasEquipo-details')
+    path('estadisticas-equipo/<int:pk>/', estadisticas_equipo_details, name='estadisticasEquipo-details'),
+    
+    # Estadisticas por torneo jugadores y equipo
+    path('estadisticas-torneo/torneo/<int:pk>/', estadisticas_por_torneo, name='estadisticas-torneo')
 ]

@@ -3,9 +3,12 @@ import { ref, onMounted } from "vue";
 import Swal from "sweetalert2";
 import ModalRegisterEquipo from "./modals/ModalRegisterEquipo.vue";
 import ShowJugadores from "./ShowJugadores.vue";
+import ModalEditTorneo from "./modals/ModalEditTorneo.vue";
 
 const equipos = ref([]);
 const showModal = ref(false)
+const showEditModal = ref(false); // ← Nuevo
+const equipoAEditar = ref(null); // ← Nuevo 
 const loading = ref(true);
 const error = ref(null);
 
@@ -39,6 +42,21 @@ function seleccionarEquipo(equipo) {
   // console.log('Equipo seleccionado', equipo)
   equipoSeleccionado.value = equipo
 }
+
+// Logica para editar equipos
+// Abrir modal de edición
+const editarEquipo = (equipo) => {
+  equipoAEditar.value = equipo;
+  showEditModal.value = true;
+};
+
+// Manejar equipo editado
+const manejarEquipoEditado = (equipoActualizado) => {
+  const index = equipos.value.findIndex(e => e.id === equipoActualizado.id);
+  if (index !== -1) {
+    equipos.value[index] = equipoActualizado;
+  }
+};
 
 // Logica para eliminar equipos
 const eliminarEquipo = async (equipoId) => {
@@ -119,7 +137,7 @@ const eliminarEquipo = async (equipoId) => {
               <td class="text-gray-900 dark:text-slate-300 p-4">{{ equipo.fecha_inscripcion }}</td>
               <td>
                 <div class="flex gap-2">
-                  <button class="px-2 py-2 rounded-lg bg-orange-500 text-slate-50 dark:text-slate-50 dark:bg-orange-500 dark:hover:bg-orange-600">
+                  <button @click="editarEquipo(equipo)" class="px-2 py-2 rounded-lg bg-orange-500 text-slate-50 dark:text-slate-50 dark:bg-orange-500 dark:hover:bg-orange-600">
                       Editar
                   </button>
                   <button @click="eliminarEquipo(equipo.id)" class="px-2 py-2 rounded-lg bg-red-600 text-slate-50 dark:text-slate-50 dark:bg-red-600 dark:hover:bg-red-700">
@@ -141,4 +159,11 @@ const eliminarEquipo = async (equipoId) => {
    
        <!-- Componente Modal -->
   <ModalRegisterEquipo :visible="showModal" :torneo-id="props.torneoId" @close="showModal = false" />
+
+  <ModalEditTorneo 
+    :visible="showEditModal"
+    :equipo="equipoAEditar"
+    @close="showEditModal = false"
+    @equipoEditado="manejarEquipoEditado"
+  />
 </template>
